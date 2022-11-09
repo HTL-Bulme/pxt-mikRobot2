@@ -99,13 +99,10 @@ namespace mikRobot {
             setPwm(idx, 0, 0);
         }
         initialized = true
-	if (
-		
-	}
         let i = 0;
         let j = 0;
-        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        setPwm(0, 0, 0);
+        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        setPwm(0, 0, 0); // notCS = low
         basic.pause(1);  // setup time /CS=0 1.5us+PWM?
         for (i = 0; i < 12; i++) {  // read all 11 channels
             for (j = 0; j < 10; j++) {
@@ -137,7 +134,7 @@ namespace mikRobot {
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
 	    }
         }
-        setPwm(0, 0, 4095);
+        setPwm(0, 0, 4095);  // notCS = high
 	if (values[11] < 400) { // mik:robot v2 A10=5V (range ~770)
 		mik_v1 = true;
 	}
