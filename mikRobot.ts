@@ -66,7 +66,7 @@ namespace mikRobot {
 
     let initialized = false
     let mik_v1 = false  // assume new MIKrobot v2 or higher
-    let bit_v2 = control.hardwareVersion().charAt(0).compare("1")) // micro:bit v2 needs a slowdown, compare() returns 0 if v1
+    let bit_v2 = 0 // 0 if v1, 1 for all others
     let gyro_init = false
     let last_value = 0; // assume initially that the line is left.
     let calibratedMax = [650, 650, 650, 650, 650];
@@ -99,6 +99,7 @@ namespace mikRobot {
             setPwm(idx, 0, 0);
         }
         initialized = true
+	bit_v2 = control.hardwareVersion().charAt(0).compare("1")) // micro:bit v2 needs a slowdown, compare("1") returns 0 if hardware is v1.x
         let i = 0;
         let j = 0;
         let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
