@@ -199,21 +199,21 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		#ifdef mbcodal  // micro:bit v2 needs a slowdown
+		if (control.hardwareVersion() != 1) { // micro:bit v2 needs a slowdown
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
-		#endif
+		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		#ifdef mbcodal
+		if (control.hardwareVersion() != 1) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
-		#endif
+		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		#ifdef mbcodal
+		if (control.hardwareVersion() != 1) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
-		#endif		
+		}	
             }
-	    #ifdef mbcodal  // micro:bit v2 needs a slowdown
+	    if (control.hardwareVersion() != 1) { // micro:bit v2 needs a slowdown  
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
-	    #endif
+	    }
         }
         //pins.digitalWritePin(DigitalPin.P16, 1);
         setPwm(0, 0, 4095);
@@ -426,21 +426,21 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		#ifdef mbcodal  // micro:bit v2 needs a slowdown
+		if (control.hardwareVersion() != 1) { // micro:bit v2 needs a slowdown
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
-		#endif
+		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		#ifdef mbcodal
+		if (control.hardwareVersion() != 1) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
-		#endif
+		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		#ifdef mbcodal
+		if (control.hardwareVersion() != 1) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
-		#endif		
+	    	}	
             }
-	    #ifdef mbcodal  // micro:bit v2 needs a slowdown
+	    if (control.hardwareVersion() != 1) { // micro:bit v2 needs a slowdown
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
-	    #endif
+	    }
         }	    
         //pins.digitalWritePin(DigitalPin.P16, 1);
         setPwm(0, 0, 4095);
@@ -612,21 +612,21 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		#ifdef mbcodal  // micro:bit v2 needs a slowdown
+		if (control.hardwareVersion() != 1) { // micro:bit v2 needs a slowdown
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
-		#endif
+		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		#ifdef mbcodal
+		if (control.hardwareVersion() != 1) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
-		#endif
+		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		#ifdef mbcodal
+		if (control.hardwareVersion() != 1) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
-		#endif		
+		}	
             }
-	    #ifdef mbcodal  // micro:bit v2 needs a slowdown
+	    if (control.hardwareVersion() != 1) { // micro:bit v2 needs a slowdown
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
-	    #endif
+	    }
 	}
 	
         //pins.digitalWritePin(DigitalPin.P16, 1);
