@@ -183,7 +183,7 @@ namespace mikRobot {
         }
         let i = 0;
         let j = 0;
-        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         //pins.digitalWritePin(DigitalPin.P16, 0);
         setPwm(0, 0, 0);
         basic.pause(1);  // setup time /CS=0 1.5us+PWM?
