@@ -1,4 +1,4 @@
-/** Work+3
+/** Work+4
  * Verwenden Sie diese Datei, um benutzerdefinierte Funktionen und Grafikblöcke zu definieren.
  * Weitere Informationen finden Sie unter https://makecode.microbit.org/blocks/custom
  */
@@ -221,7 +221,7 @@ namespace mikRobot {
         if (!initialized) {
             initPCA9685()
         }
-	if (!mik_v1) { // mik:robot v1 cannot control servos
+	//if (!mik_v1) { // mik:robot v1 cannot control servos
 		if (pos > 180) {
 		    pos = 180
 		}
@@ -236,7 +236,7 @@ namespace mikRobot {
 		    	pins.servoWritePin(AnalogPin.P16, pos);
 		}		
 		
-	}
+	//}
     }
 	
     //% blockId=mikRobot_GyroReset block="GyroReset"
@@ -249,7 +249,7 @@ namespace mikRobot {
         let oldreg = i2cread(GYRO_ADDRESS, 0x02); // MPU6050_RA_ZG_OFFS_TC
         let newreg = (oldreg & 0x81) | 0x00; // set Z gyro offset = 0 [7]PWR_Mode [6:1]ZG_OFFS_TC [0]OTP_BNK_VLD
         i2cwrite(GYRO_ADDRESS, 0x02, newreg);		         
-		control.waitMicros(2);
+	control.waitMicros(2);
     }
 	
     //% blockId=mikRobot_Gyro block="Gyro"
