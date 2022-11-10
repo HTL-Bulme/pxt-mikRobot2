@@ -236,19 +236,6 @@ namespace mikRobot {
 		    	pins.servoWritePin(AnalogPin.P16, pos);
 		}		
 		
-	    
-		/*  old code for PCA9685
-		// map 180 to 4096 (http://wiki.sunfounder.cc/index.php?title=PCA9685_16_Channel_12_Bit_PWM_Servo_Driver)
-		pos = MIN_PULSE_WIDTH + pos * (MAX_PULSE_WIDTH-MIN_PULSE_WIDTH)/180.0;
-		// pos = DEFAULT_PULSE_WIDTH;
-		// pos = (MIN_PULSE_WIDTH + pos * (MAX_PULSE_WIDTH-MIN_PULSE_WIDTH)/180.0)/ 1000000 * FREQUENCY * 4096;
-
-		if (index == 1) {
-		    setPwm(8, 0, pos)
-		} else if (index == 2) {
-		    setPwm(9, 0, pos)
-		}
-		*/
 	}
     }
 	
