@@ -221,7 +221,45 @@ namespace mikRobot {
         if (!initialized) {
             initPCA9685()
         }
-	//if (!mik_v1) { // mik:robot v1 cannot control servos
+        let i = 0;
+        let j = 0;
+        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        //pins.digitalWritePin(DigitalPin.P16, 0);
+        setPwm(0, 0, 0);
+        basic.pause(1);  // setup time /CS=0 1.5us+PWM?
+        for (i = 0; i < 12; i++) {  // all 11 channels
+            for (j = 0; j < 10; j++) {
+                if (j < 4) { //0 to 3 clock transfer channel address (B3 to B0) on MOSI
+                    if ((i >> (3 - j)) & 0x01) {
+                        pins.digitalWritePin(DigitalPin.P15, 1);
+                    } else {
+                        pins.digitalWritePin(DigitalPin.P15, 0);
+                    }
+                }
+                //0 to 9 clock receives the previous conversion result on MISO
+                values[i] <<= 1;
+                if (pins.digitalReadPin(DigitalPin.P14)) {
+                    values[i] |= 0x01;
+                }
+		if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
+		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
+		}
+                pins.digitalWritePin(DigitalPin.P13, 1);
+		if (control.hardwareVersion().charAt(0).compare("1")) {
+		    control.waitMicros(1);  // min. 190ns clock pulse duration
+		}
+                pins.digitalWritePin(DigitalPin.P13, 0);
+		if (control.hardwareVersion().charAt(0).compare("1")) {
+		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
+		}	
+            }
+	    if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown  
+		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
+	    }
+        }
+        //pins.digitalWritePin(DigitalPin.P16, 1);
+        setPwm(0, 0, 4095);
+	if (values[11] > 400) { // mik:robot v2 A10=5V (range ~770)
 		if (pos > 180) {
 		    pos = 180
 		}
@@ -236,7 +274,20 @@ namespace mikRobot {
 		    	pins.servoWritePin(AnalogPin.P16, pos);
 		}		
 		
-	//}
+	    
+		/*  old code for PCA9685
+		// map 180 to 4096 (http://wiki.sunfounder.cc/index.php?title=PCA9685_16_Channel_12_Bit_PWM_Servo_Driver)
+		pos = MIN_PULSE_WIDTH + pos * (MAX_PULSE_WIDTH-MIN_PULSE_WIDTH)/180.0;
+		// pos = DEFAULT_PULSE_WIDTH;
+		// pos = (MIN_PULSE_WIDTH + pos * (MAX_PULSE_WIDTH-MIN_PULSE_WIDTH)/180.0)/ 1000000 * FREQUENCY * 4096;
+
+		if (index == 1) {
+		    setPwm(8, 0, pos)
+		} else if (index == 2) {
+		    setPwm(9, 0, pos)
+		}
+		*/
+	}
     }
 	
     //% blockId=mikRobot_GyroReset block="GyroReset"
