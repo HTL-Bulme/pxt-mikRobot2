@@ -1,4 +1,4 @@
-/** Work
+/** Work+1
  * Verwenden Sie diese Datei, um benutzerdefinierte Funktionen und Grafikblöcke zu definieren.
  * Weitere Informationen finden Sie unter https://makecode.microbit.org/blocks/custom
  */
@@ -66,6 +66,7 @@ namespace mikRobot {
 
     let initialized = false
     let gyro_init = false
+    let bit_v2 = false // false if v1, true for all others
     let last_value = 0; // assume initially that the line is left.
     let calibratedMax = [650, 650, 650, 650, 650];
     let calibratedMin = [100, 100, 100, 100, 100];
@@ -97,6 +98,7 @@ namespace mikRobot {
             setPwm(idx, 0, 0);
         }
         initialized = true
+	bit_v2 = control.hardwareVersion().charAt(0).compare("1") // micro:bit v2 needs a slowdown, compare("1") returns false if hardware is v1.x
     }
 	
     function initGyro(): void {
@@ -199,19 +201,19 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
+		if (bit_v2) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
 		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
 		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
 		}	
             }
-	    if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown  
+	    if (bit_v2) { // micro:bit v2 needs a slowdown  
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
 	    }
         }
@@ -426,19 +428,19 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
+		if (bit_v2) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
 		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
 		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
 	    	}	
             }
-	    if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown
+	    if (bit_v2) { // micro:bit v2 needs a slowdown
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
 	    }
         }	    
@@ -612,19 +614,19 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
+		if (bit_v2) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
 		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
 		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
 		}	
             }
-	    if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown
+	    if (bit_v2) { // micro:bit v2 needs a slowdown
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
 	    }
 	}
