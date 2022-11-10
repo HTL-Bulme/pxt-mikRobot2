@@ -67,7 +67,7 @@ namespace mikRobot {
     let initialized = false
     let gyro_init = false
     let bit_v2 = false // false if v1, true for all others
-    let mik_v1 = false  // assume new mik:robot v2 or higher    
+    //let mik_v1 = false  // assume new mik:robot v2 or higher    
     let last_value = 0; // assume initially that the line is left.
     let calibratedMax = [650, 650, 650, 650, 650];
     let calibratedMin = [100, 100, 100, 100, 100];
@@ -137,7 +137,7 @@ namespace mikRobot {
         }
         setPwm(0, 0, 4095);  // notCS = high
         if (values[11] < 400) { // mik:robot v2 A10=5V (range ~770)
-            mik_v1 = true;
+            //mik_v1 = true;
         }	    
     }
 	
@@ -223,7 +223,7 @@ namespace mikRobot {
         }
         let i = 0;
         let j = 0;
-        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         //pins.digitalWritePin(DigitalPin.P16, 0);
         setPwm(0, 0, 0);
         basic.pause(1);  // setup time /CS=0 1.5us+PWM?
