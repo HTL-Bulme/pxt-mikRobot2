@@ -1,4 +1,4 @@
-/** Work+4
+/** Work+2
  * Verwenden Sie diese Datei, um benutzerdefinierte Funktionen und Grafikblöcke zu definieren.
  * Weitere Informationen finden Sie unter https://makecode.microbit.org/blocks/custom
  */
@@ -67,7 +67,7 @@ namespace mikRobot {
     let initialized = false
     let gyro_init = false
     let bit_v2 = false // false if v1, true for all others
-    //let mik_v1 = false  // assume new mik:robot v2 or higher    
+    let mik_v1 = false  // assume new mik:robot v2 or higher    
     let last_value = 0; // assume initially that the line is left.
     let calibratedMax = [650, 650, 650, 650, 650];
     let calibratedMin = [100, 100, 100, 100, 100];
@@ -137,7 +137,7 @@ namespace mikRobot {
         }
         setPwm(0, 0, 4095);  // notCS = high
         if (values[11] < 400) { // mik:robot v2 A10=5V (range ~770)
-            //mik_v1 = true;
+            mik_v1 = true;
         }	    
     }
 	
@@ -223,7 +223,7 @@ namespace mikRobot {
         }
         let i = 0;
         let j = 0;
-        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let values = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         //pins.digitalWritePin(DigitalPin.P16, 0);
         setPwm(0, 0, 0);
         basic.pause(1);  // setup time /CS=0 1.5us+PWM?
@@ -241,19 +241,19 @@ namespace mikRobot {
                 if (pins.digitalReadPin(DigitalPin.P14)) {
                     values[i] |= 0x01;
                 }
-		if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
+		if (bit_v2) { // micro:bit v2 needs a slowdown, compare() returns 0 if v1
 		    control.waitMicros(1);  // 100ns setup time for address data before clock rise
 		}
                 pins.digitalWritePin(DigitalPin.P13, 1);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // min. 190ns clock pulse duration
 		}
                 pins.digitalWritePin(DigitalPin.P13, 0);
-		if (control.hardwareVersion().charAt(0).compare("1")) {
+		if (bit_v2) {
 		    control.waitMicros(1);  // max. 240ns MISO valid after clock fall
 		}	
             }
-	    if (control.hardwareVersion().charAt(0).compare("1")) { // micro:bit v2 needs a slowdown  
+	    if (bit_v2) { // micro:bit v2 needs a slowdown  
 		control.waitMicros(22);  // ADC conversion time 21us+10 clocks 
 	    }
         }
@@ -300,7 +300,7 @@ namespace mikRobot {
         let oldreg = i2cread(GYRO_ADDRESS, 0x02); // MPU6050_RA_ZG_OFFS_TC
         let newreg = (oldreg & 0x81) | 0x00; // set Z gyro offset = 0 [7]PWR_Mode [6:1]ZG_OFFS_TC [0]OTP_BNK_VLD
         i2cwrite(GYRO_ADDRESS, 0x02, newreg);		         
-	control.waitMicros(2);
+		control.waitMicros(2);
     }
 	
     //% blockId=mikRobot_Gyro block="Gyro"
